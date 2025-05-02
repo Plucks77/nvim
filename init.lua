@@ -265,6 +265,7 @@ require('lazy').setup({
   },
 
   { 'tpope/vim-fugitive' },
+  { 'rest-nvim/rest.nvim' },
   { 'mbbill/undotree' },
   { 'windwp/nvim-autopairs', event = 'InsertEnter', config = true },
   { 'github/copilot.vim' },
@@ -348,16 +349,60 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>f'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      -- require('which-key').setup() {
+      --   { '<leader>c', group = '[C]ode' },
+      --   { '<leader>c_', hidden = true },
+      --   { '<leader>d', group = '[D]ocument' },
+      --   { '<leader>d_', hidden = true },
+      --   { '<leader>f', group = '[S]earch' },
+      --   { '<leader>f_', hidden = true },
+      --   { '<leader>r', group = '[R]ename' },
+      --   { '<leader>r_', hidden = true },
+      --   { '<leader>w', group = '[W]orkspace' },
+      --   { '<leader>w_', hidden = true },
+      -- }
+      -- require('which-key').register {
+      --   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+      --   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+      --   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+      --   ['<leader>f'] = { name = '[S]earch', _ = 'which_key_ignore' },
+      --   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      -- }
+      local wk = require 'which-key'
+      wk.add {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>c_', hidden = true },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d_', hidden = true },
+        { '<leader>f', group = '[S]earch' },
+        { '<leader>f_', hidden = true },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>r_', hidden = true },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>w_', hidden = true },
       }
+      -- {
+      --   { '<leader>f', group = 'file' }, -- group
+      --   { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find File', mode = 'n' },
+      --   {
+      --     '<leader>fb',
+      --     function()
+      --       print 'hello'
+      --     end,
+      --     desc = 'Foobar',
+      --   },
+      --   { '<leader>fn', desc = 'New File' },
+      --   { '<leader>f1', hidden = true }, -- hide this keymap
+      --   {
+      --     -- Nested mappings are allowed and can be added in any order
+      --     -- Most attributes can be inherited or overridden on any level
+      --     -- There's no limit to the depth of nesting
+      --     mode = { 'n', 'v' }, -- NORMAL and VISUAL mode
+      --     { '<leader>q', '<cmd>q<cr>', desc = 'Quit' }, -- no need to specify mode since it's inherited
+      --     { '<leader>w', '<cmd>w<cr>', desc = 'Write' },
+      --   },
+      -- }
     end,
   },
 
@@ -846,21 +891,44 @@ require('lazy').setup({
       }
     end,
   },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  {
+    'rose-pine/neovim',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1, -- Make sure to load this before all the other start plugins.
+    config = function()
+      -- Load the colorscheme here.
+      vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
+      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      vim.cmd.colorscheme 'rose-pine'
+    end,
+  },
+  {
     'folke/tokyonight.nvim',
-    init = function()
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1, -- Make sure to load this before all the other start plugins.
+    config = function()
+      -- vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      -- vim.cmd.hi 'Comment gui=none'
+    end,
+  },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    lazy = false,
+    priority = 100,
+    config = function()
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      -- vim.cmd.hi 'Comment gui=none'
+      -- vim.cmd("highlight Normal guibg=black")
+      -- vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
   {
     'nyoom-engineering/oxocarbon.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    priority = 1, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
       -- vim.cmd.colorscheme 'oxocarbon'
@@ -870,15 +938,14 @@ require('lazy').setup({
   },
   {
     'Shatur/neovim-ayu',
-    --lazy = false,
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
+    lazy = false,
+    priority = 1, -- Make sure to load this before all the other start plugins.
+    config = function()
       -- Load the colorscheme here.
-      vim.cmd.colorscheme 'ayu'
-      vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
-      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      -- vim.cmd.colorscheme 'ayu-dark'
     end,
-    --vim.cmd.colorscheme 'ayu',
   },
   {
     'oxfist/night-owl.nvim',
@@ -916,7 +983,7 @@ require('lazy').setup({
   },
   {
     'ellisonleao/gruvbox.nvim',
-    priority = 1000,
+    priority = 0,
     config = function()
       require('gruvbox').setup {
         terminal_colors = true, -- add neovim terminal colors
