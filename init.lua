@@ -157,6 +157,9 @@ vim.opt.scrolloff = 8
 vim.opt.guicursor = 'i:block'
 vim.opt.colorcolumn = '80'
 
+vim.opt.termguicolors = true
+
+
 -- vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
 vim.keymap.set('n', '<C-s>', '<cmd>w<cr>', { desc = 'Save' })
 vim.keymap.set('n', '<C-q>', '<cmd>q<cr>', { desc = 'Quit' })
@@ -180,6 +183,9 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+vim.keymap.set('n', '<S-u>', "<cmd>cnext<CR>")
+vim.keymap.set('n', '<S-y>', "<cmd>cprev<CR>")
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -269,6 +275,13 @@ require('lazy').setup({
   { 'mbbill/undotree' },
   { 'windwp/nvim-autopairs', event = 'InsertEnter', config = true },
   { 'github/copilot.vim' },
+  {'brenoprata10/nvim-highlight-colors',
+    config = function()
+      local color = require 'nvim-highlight-colors'
+      color:setup()
+    end
+  },
+
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
