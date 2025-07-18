@@ -233,6 +233,17 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- Color scheme function
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    -- vim.cmd.colorscheme("torte")
+    -- vim.cmd.colorscheme("rose-pine")
+    -- vim.cmd.colorscheme("darkblue")
+    vim.cmd.colorscheme("tokyonight")
+  end,
+})
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -481,7 +492,11 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+         colorscheme = {
+            enable_preview = true
+          }
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -904,15 +919,16 @@ require('lazy').setup({
       }
     end,
   },
+  -- Color schemes
   {
     'rose-pine/neovim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1, -- Make sure to load this before all the other start plugins.
     config = function()
       -- Load the colorscheme here.
-      vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
-      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
-      vim.cmd.colorscheme 'rose-pine'
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = 'black' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'black' })
+      -- vim.cmd.colorscheme 'rose-pine'
     end,
   },
   {
