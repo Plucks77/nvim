@@ -240,7 +240,7 @@ vim.api.nvim_create_autocmd("User", {
     -- vim.cmd.colorscheme("torte")
     -- vim.cmd.colorscheme("rose-pine")
     -- vim.cmd.colorscheme("darkblue")
-    vim.cmd.colorscheme("tokyonight")
+    vim.cmd.colorscheme("tokyonight-night")
   end,
 })
 
@@ -498,6 +498,7 @@ require('lazy').setup({
           }
         },
         extensions = {
+          fzf = {},
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
