@@ -162,7 +162,7 @@ vim.opt.termguicolors = true
 
 -- vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
 vim.keymap.set('n', '<C-s>', '<cmd>w<cr>', { desc = 'Save' })
-vim.keymap.set('n', '<C-q>', '<cmd>q<cr>', { desc = 'Quit' })
+-- vim.keymap.set('n', '<C-q>', '<cmd>q<cr>', { desc = 'Quit' })
 
 -- Override for comments
 vim.keymap.set('n', '<leader>/', function()
@@ -184,6 +184,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Quick fix shit
 vim.keymap.set('n', '<S-u>', "<cmd>cnext<CR>")
 vim.keymap.set('n', '<S-y>', "<cmd>cprev<CR>")
 
@@ -285,7 +286,7 @@ require('lazy').setup({
   { 'rest-nvim/rest.nvim' },
   { 'mbbill/undotree' },
   { 'windwp/nvim-autopairs', event = 'InsertEnter', config = true },
-  { 'github/copilot.vim' },
+  -- { 'github/copilot.vim' },
   {'brenoprata10/nvim-highlight-colors',
     config = function()
       local color = require 'nvim-highlight-colors'
