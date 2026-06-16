@@ -6,9 +6,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd('User', {
-  pattern = 'VeryLazy',
-  callback = function()
-    vim.cmd.colorscheme 'tokyonight-night'
-  end,
-})
+require('config.colorscheme').setup()
