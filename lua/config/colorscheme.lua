@@ -1,6 +1,7 @@
 local M = {}
 
-local default = 'tokyonight-night'
+-- local default = 'tokyonight-night'
+local default = 'ayu-dark'
 local path = vim.fn.stdpath 'config' .. '/colorscheme'
 local legacy_path = vim.fn.stdpath 'state' .. '/colorscheme'
 
@@ -38,18 +39,26 @@ function M.load()
 end
 
 function M.setup()
+  local startup_complete = false
+
   vim.api.nvim_create_autocmd('User', {
-    pattern = 'VeryLazy',
+    pattern = 'LazyDone',
     callback = function()
       M.load()
+      startup_complete = true
     end,
   })
 
   vim.api.nvim_create_autocmd('ColorScheme', {
     group = vim.api.nvim_create_augroup('colorscheme-persist', { clear = true }),
-    callback = function()
-      if vim.g.colors_name then
-        M.save(vim.g.colors_name)
+    callback = function(args)
+      -- Lazy may apply a temporary theme while installing missing plugins.
+      if not startup_complete then
+        return
+      end
+
+      if args.match and args.match ~= '' then
+        M.save(args.match)
       end
     end,
   })
